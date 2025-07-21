@@ -62,6 +62,7 @@
   object-fit: contain;
   width: 150px; 
   height: 150px;
+  align-self: center;
 }
 .commentList{
   height: 30vh;
@@ -120,6 +121,9 @@ ul, li {
 @media (min-width: 768px) {
   .commentList {
     width: 250px;
+  }
+  .cardImg{
+    align-self: center;
   }
 }
 

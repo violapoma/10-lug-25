@@ -10,6 +10,8 @@ function CommentArea({ asin }) {
 
   const [comments, setComments] = useState([]);
 
+  const [average, setAverage] = useState(0);
+
   function fetchComments() {
     fetch(commentsEP, {
       headers: {
@@ -19,7 +21,7 @@ function CommentArea({ asin }) {
       .then((res) => res.json())
       .then((comments) => {
         setComments(comments);
-        console.log(comments);
+        setAverage(averageRating(comments));
       });
   }
 
@@ -27,13 +29,22 @@ function CommentArea({ asin }) {
     fetchComments()
   }, []);
 
+  function averageRating(comments){
+    const howMany = comments.length; 
+    const ratingsSum = comments.reduce((acc, comment) => acc+comment.rate, 0);
+    return ratingsSum / howMany; 
+  }
+
+
   return (
     <>
+      {comments.length > 0 && <p>⭐️ {average.toFixed(1)} / 5</p>}
       <AddComment asin={asin} token={token} />
 
       {comments.length == 0 ? (
         <h2>🤷‍♀️ Still no comments 🤷‍♀️</h2>
       ) : (
+        
         <CommentList asin={asin} comments={comments} />
       )}
     </>
